@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.counters.GeneralCounterFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollZickr"
@@ -24,6 +23,7 @@
         android:id="@+id/materialCardCounter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:strokeWidth="3dp"
         app:cardCornerRadius="24dp"
         app:strokeColor="@color/purple_300"
         app:cardUseCompatPadding="true">
@@ -70,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="24dp"
+        app:strokeWidth="3dp"
         app:strokeColor="@color/purple_300"
         app:cardUseCompatPadding="true">
 
@@ -115,6 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="24dp"
+        app:strokeWidth="3dp"
         app:strokeColor="@color/purple_300"
         app:cardUseCompatPadding="true">
 

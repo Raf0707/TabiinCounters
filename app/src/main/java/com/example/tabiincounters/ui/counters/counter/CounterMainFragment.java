@@ -1,4 +1,4 @@
-package com.example.tabiincounters.ui.counters.counter.counter_main;
+package com.example.tabiincounters.ui.counters.counter;
 
 import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
 
@@ -20,7 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.tabiincounters.R;
 import com.example.tabiincounters.databinding.FragmentCounterMainBinding;
-import com.example.tabiincounters.ui.counters.counter.counter_settings.CounterSettingsFragment;
+import com.example.tabiincounters.ui.SettingsFragment;
+import com.example.tabiincounters.ui.counters.CounterSavesFragment;
 import com.example.tabiincounters.utils.CallBack;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,9 +33,9 @@ public class CounterMainFragment extends Fragment {
 
     private FragmentCounterMainBinding binding;
     private int currentCount;
-    private String defoltValue = "10";
-    private int maxvalue;
-    private SharedPreferences sPreff;
+    private String defaultValue = "10";
+    private int maxValue;
+    private SharedPreferences sPrefs;
     private Handler handler;
 
     private static final TimeInterpolator GAUGE_ANIMATION_INTERPOLATOR =
@@ -50,45 +51,45 @@ public class CounterMainFragment extends Fragment {
 
         handler = new Handler();
 
-        binding.saveProgressCounterFragment.setOnClickListener(view -> {
+        binding.saveCounterEditions.setOnClickListener(view -> {
             // saveText()
-            binding.tsel.setText(binding
-                    .tsel
+            binding.counterTarget.setText(binding
+                    .counterTarget
                     .getText()
                     .toString()
                     .replaceAll("[\\.\\-,\\s]+", ""));
 
-            binding.tsel.setCursorVisible(false);
-            binding.tsel.setFocusableInTouchMode(false);
-            binding.tsel.setEnabled(false);
+            binding.counterTarget.setCursorVisible(false);
+            binding.counterTarget.setFocusableInTouchMode(false);
+            binding.counterTarget.setEnabled(false);
 
-            binding.titleTsel.setCursorVisible(false);
-            binding.titleTsel.setFocusableInTouchMode(false);
-            binding.titleTsel.setEnabled(false);
+            binding.counterTitle.setCursorVisible(false);
+            binding.counterTitle.setFocusableInTouchMode(false);
+            binding.counterTitle.setEnabled(false);
 
-            binding.titleDescript.setCursorVisible(false);
-            binding.titleDescript.setFocusableInTouchMode(false);
-            binding.titleDescript.setEnabled(false);
+            binding.counterDescription.setCursorVisible(false);
+            binding.counterDescription.setFocusableInTouchMode(false);
+            binding.counterDescription.setEnabled(false);
 
-            if (binding.tsel.getText().toString().length() == 0) {
-                binding.tsel.setText(defoltValue);
-                maxvalue = Integer.parseInt(binding
-                        .tsel
+            if (binding.counterTarget.getText().toString().length() == 0) {
+                binding.counterTarget.setText(defaultValue);
+                maxValue = Integer.parseInt(binding
+                        .counterTarget
                         .getText()
                         .toString());
 
-                binding.mainProgressBarCounterFragment.setMax(maxvalue);
+                binding.counterProgress.setMax(maxValue);
 
                 Snackbar.make(requireView(),
                                 new StringBuilder()
                                         .append("Вы не ввели цель. По умолчанию: ")
-                                        .append(defoltValue),
+                                        .append(defaultValue),
                                 Snackbar.LENGTH_LONG)
                         .show();
 
             } else {
 
-                if (Integer.parseInt(binding.tsel.getText().toString()) <= 0) {
+                if (Integer.parseInt(binding.counterTarget.getText().toString()) <= 0) {
                     Snackbar.make(requireView(),
                                     new StringBuilder()
                                             .append("Введите число больше нуля!"),
@@ -103,15 +104,15 @@ public class CounterMainFragment extends Fragment {
                                     Snackbar.LENGTH_LONG)
                             .show();
 
-                    maxvalue = Integer.parseInt(binding.tsel.getText().toString());
-                    binding.mainProgressBarCounterFragment.setMax(maxvalue);
+                    maxValue = Integer.parseInt(binding.counterTarget.getText().toString());
+                    binding.counterProgress.setMax(maxValue);
                     binding
-                            .editProgressCountTextCounterFragment
+                            .counterProgressTv
                             .setText(MessageFormat
                                     .format("{0} / {1}",
                                             currentCount,
                                             binding
-                                                    .tsel
+                                                    .counterTarget
                                                     .getText()
                                                     .toString()));
 
@@ -120,24 +121,24 @@ public class CounterMainFragment extends Fragment {
 
         });
 
-        binding.editTselCounterFragment.setOnClickListener(view -> {
+        binding.editCounterBtn.setOnClickListener(view -> {
 
-            binding.tsel.setCursorVisible(true);
-            binding.tsel.setFocusableInTouchMode(true);
-            binding.tsel.setEnabled(true);
+            binding.counterTarget.setCursorVisible(true);
+            binding.counterTarget.setFocusableInTouchMode(true);
+            binding.counterTarget.setEnabled(true);
 
-            binding.titleTsel.setCursorVisible(true);
-            binding.titleTsel.setFocusableInTouchMode(true);
-            binding.titleTsel.setEnabled(true);
+            binding.counterTitle.setCursorVisible(true);
+            binding.counterTitle.setFocusableInTouchMode(true);
+            binding.counterTitle.setEnabled(true);
 
-            binding.titleDescript.setCursorVisible(true);
-            binding.titleDescript.setFocusableInTouchMode(true);
-            binding.titleDescript.setEnabled(true);
+            binding.counterDescription.setCursorVisible(true);
+            binding.counterDescription.setFocusableInTouchMode(true);
+            binding.counterDescription.setEnabled(true);
 
-            binding.tsel.requestFocus();
+            binding.counterTarget.requestFocus();
 
-            binding.tsel.setSelection(
-                    binding.tsel.getText().length()
+            binding.counterTarget.setSelection(
+                    binding.counterTarget.getText().length()
             );
 
             getActivity()
@@ -167,30 +168,30 @@ public class CounterMainFragment extends Fragment {
                             .INPUT_METHOD_SERVICE);
 
             if (imm != null) {
-                imm.showSoftInput(binding.tsel,
+                imm.showSoftInput(binding.counterTarget,
                         InputMethodManager.SHOW_FORCED);
             }
 
         });
 
-        binding.plusCounterFragment.setOnClickListener(view -> {
+        binding.counterBtnPlus.setOnClickListener(view -> {
             //saveText();
-            if (binding.tsel.getText().toString().length() == 0) {
-                maxvalue = 100;
-                binding.tsel.setText(Integer.toString(maxvalue));
-                binding.mainProgressBarCounterFragment.setMax(100);
-                binding.editProgressCountTextCounterFragment
+            if (binding.counterTarget.getText().toString().length() == 0) {
+                maxValue = 100;
+                binding.counterTarget.setText(Integer.toString(maxValue));
+                binding.counterProgress.setMax(100);
+                binding.counterProgressTv
                         .setText(MessageFormat.format("{0} / {1}",
                                 currentCount, 100));
             }
-            if (currentCount == maxvalue) {
-                binding.editProgressCountTextCounterFragment
+            if (currentCount == maxValue) {
+                binding.counterProgressTv
                         .setText(MessageFormat
                                 .format("{0} / {1}",
-                                        binding.tsel
+                                        binding.counterTarget
                                                 .getText()
                                                 .toString(),
-                                        binding.tsel
+                                        binding.counterTarget
                                                 .getText()
                                                 .toString()));
 
@@ -202,20 +203,20 @@ public class CounterMainFragment extends Fragment {
                         .show();
             }
 
-            if (binding.tsel.getText().toString() != null) {
+            if (binding.counterTarget.getText().toString() != null) {
                 currentCount++;
                 if (currentCount <= Integer
-                        .parseInt(binding.tsel
+                        .parseInt(binding.counterTarget
                                 .getText()
                                 .toString())) {
-                    binding.editProgressCountTextCounterFragment
+                    binding.counterProgressTv
                             .setText(MessageFormat
                                     .format("{0} / {1}", currentCount,
-                                            binding.tsel.getText().toString()));
+                                            binding.counterTarget.getText().toString()));
                 }
 
                 ObjectAnimator animator = ObjectAnimator
-                        .ofInt(binding.mainProgressBarCounterFragment,
+                        .ofInt(binding.counterProgress,
                                 "progress",
                                 currentCount, currentCount);
 
@@ -224,10 +225,10 @@ public class CounterMainFragment extends Fragment {
                 animator.start();
 
 
-                if (binding.tsel.length() != 0) {
-                    maxvalue = Integer.parseInt(binding.tsel.getText().toString());
+                if (binding.counterTarget.length() != 0) {
+                    maxValue = Integer.parseInt(binding.counterTarget.getText().toString());
 
-                    if (currentCount == maxvalue) {
+                    if (currentCount == maxValue) {
                         Snackbar.make(requireView(),
                                         new StringBuilder()
                                                 .append("Цель достигнута! " +
@@ -255,35 +256,35 @@ public class CounterMainFragment extends Fragment {
 
         });
 
-        binding.minusCounterFragment.setOnClickListener(view -> {
+        binding.counterBtnMinus.setOnClickListener(view -> {
             //saveText();
             currentCount--;
             if (currentCount < 0) {
                 currentCount = 0;
             }
 
-            if (binding.tsel
+            if (binding.counterTarget
                     .getText()
                     .toString()
                     .length() == 0) {
-                binding.editProgressCountTextCounterFragment
+                binding.counterProgressTv
                         .setText(MessageFormat.format("{0} / {1}",
                                 currentCount, 100));
             } else if (currentCount <= Integer
-                    .parseInt(binding.tsel
+                    .parseInt(binding.counterTarget
                             .getText()
                             .toString())) {
-                binding.editProgressCountTextCounterFragment
+                binding.counterProgressTv
                         .setText(MessageFormat
                                 .format("{0} / {1}",
-                                        currentCount, binding.tsel
+                                        currentCount, binding.counterTarget
                                                 .getText()
                                                 .toString()));
 
             }
 
             ObjectAnimator animatorMinus = ObjectAnimator
-                    .ofInt(binding.mainProgressBarCounterFragment,
+                    .ofInt(binding.counterProgress,
                             "progress",
                             currentCount, currentCount);
 
@@ -296,7 +297,7 @@ public class CounterMainFragment extends Fragment {
 
         });
 
-        binding.dataBaseCounter.setOnClickListener(view -> {
+        binding.openCounterListBtn.setOnClickListener(view -> {
             changeFragment(requireActivity(),
                     new CounterSavesFragment(),
                     R.id.containerFragment,
@@ -304,13 +305,13 @@ public class CounterMainFragment extends Fragment {
             );
         });
 
-        binding.resetProgressCounterFragment.setOnClickListener(view -> {
+        binding.counterResetBtn.setOnClickListener(view -> {
             if (currentCount != 0) onMaterialAlert();
         });
 
-        binding.setCounter.setOnClickListener(view -> {
+        binding.openSettingsBtn.setOnClickListener(view -> {
             changeFragment(requireActivity(),
-                    new CounterSettingsFragment(),
+                    new SettingsFragment(),
                     R.id.containerFragment,
                     savedInstanceState
             );
@@ -344,16 +345,16 @@ public class CounterMainFragment extends Fragment {
                 .setMessage("Вы уверены, что хотите обновить счетчик?")
                 .setPositiveButton("Да", (dialogInterface, i) -> {
                     currentCount = 0;
-                    binding.editProgressCountTextCounterFragment
+                    binding.counterProgressTv
                             .setText(new StringBuilder()
                                     .append("0 / ")
-                                    .append(binding.tsel
+                                    .append(binding.counterTarget
                                             .getText()
                                             .toString())
                                     .toString());
 
                     ObjectAnimator animatorMaterial = ObjectAnimator
-                            .ofInt(binding.mainProgressBarCounterFragment,
+                            .ofInt(binding.counterProgress,
                                     "progress", currentCount);
                     animatorMaterial
                             .setInterpolator(GAUGE_ANIMATION_INTERPOLATOR);

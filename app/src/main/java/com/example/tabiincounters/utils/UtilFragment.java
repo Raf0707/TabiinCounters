@@ -7,7 +7,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.tabiin.*;
+import com.example.tabiincounters.*;
+import com.example.tabiincounters.R;
 
 public class UtilFragment {
 

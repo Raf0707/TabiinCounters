@@ -5,12 +5,14 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/btndesign.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/btnshadow.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/circular_progress.xml" value="0.225" />
         <entry key="app/src/main/res/drawable-v24/contur.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/contur_45.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/contur_red_rect.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/contur_text_rect.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/conturdesc.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/green_cursor.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_add_task_24.xml" value="0.225" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_alternate_email_24.xml" value="0.1015" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_apps_24.xml" value="0.1015" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_check_24.xml" value="0.2095" />
@@ -30,10 +32,18 @@
         <entry key="app/src/main/res/layout/counter_item_create.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_element.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/fragment_app_about.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_counter_beta.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_main.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_saves.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_counter_settings.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_create_counter_item.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_general_counter.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_gesture_counter.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_gesture_counter_info.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_gesture_counter_settings.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/fragment_info_beta_counter.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/fragment_tutorial.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/menu/bottom_navig_menu.xml" value="0.35052083333333334" />
       </map>
     </option>
