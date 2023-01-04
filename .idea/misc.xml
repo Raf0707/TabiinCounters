@@ -11,10 +11,17 @@
         <entry key="app/src/main/res/drawable-v24/contur_text_rect.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/conturdesc.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/green_cursor.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_alternate_email_24.xml" value="0.1015" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_apps_24.xml" value="0.1015" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_check_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_code_24.xml" value="0.1015" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_control_point_24.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_delete_forever_24.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_edit_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_error_outline_24.xml" value="0.1015" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_person_24.xml" value="0.1015" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_public_24.xml" value="0.1015" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_rate_review_24.xml" value="0.1015" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_remove_circle_outline_24.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_restart_alt_24.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2095" />
@@ -22,6 +29,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_create.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_element.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/fragment_app_about.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_main.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_saves.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_create_counter_item.xml" value="0.35052083333333334" />
