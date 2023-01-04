@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+
+        <item
+            android:id="@+id/fard_general"
+            android:icon="@drawable/ic_baseline_exposure_plus_1_24"
+            android:title="Счетчики" />
+
+        <item
+            android:id="@+id/zickr_general"
+            android:icon="@drawable/ic_baseline_pan_tool_alt_24"
+            android:title="Зикры" />
+
+        <item
+            android:id="@+id/about_app"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="О приложении" />
+    </group>
+
+
+</menu>

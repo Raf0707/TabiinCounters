@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/btndesign.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/btnshadow.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/contur.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/contur_45.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/contur_red_rect.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/contur_text_rect.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/conturdesc.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/green_cursor.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_check_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_control_point_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_delete_forever_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_edit_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_remove_circle_outline_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_restart_alt_24.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable/bg_roundrect_ripple_light_border.xml" value="0.2095" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/counter_item_create.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/counter_item_element.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/fragment_counter_main.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_counter_saves.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_create_counter_item.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_general_counter.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/menu/bottom_navig_menu.xml" value="0.35052083333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
