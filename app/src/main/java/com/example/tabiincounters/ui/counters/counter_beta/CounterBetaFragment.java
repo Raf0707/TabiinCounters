@@ -57,7 +57,7 @@ public class CounterBetaFragment extends Fragment {
         binding.counterTarget.setFocusableInTouchMode(true);
         binding.counterTarget.setEnabled(true);
 
-        binding.saveCounter.setOnClickListener(view -> {
+        binding.saveEdition.setOnClickListener(view -> {
             binding.counterTarget.setText(
                     binding.counterTarget
                             .getText()

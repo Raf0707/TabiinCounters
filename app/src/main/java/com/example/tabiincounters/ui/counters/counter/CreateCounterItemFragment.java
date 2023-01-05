@@ -47,9 +47,6 @@ public class CreateCounterItemFragment extends Fragment {
         binding.counterTitle.setFocusableInTouchMode(true);
         binding.counterTitle.setEnabled(true);
 
-        binding.counterDescription.setCursorVisible(true);
-        binding.counterDescription.setFocusableInTouchMode(true);
-        binding.counterDescription.setEnabled(true);
 
         binding.createCounterNote.setOnClickListener(view -> {
             // saveText()
@@ -67,9 +64,6 @@ public class CreateCounterItemFragment extends Fragment {
             binding.counterTitle.setFocusableInTouchMode(false);
             binding.counterTitle.setEnabled(false);
 
-            binding.counterDescription.setCursorVisible(false);
-            binding.counterDescription.setFocusableInTouchMode(false);
-            binding.counterDescription.setEnabled(false);
 
             if (binding.counterTarget
                     .getText().toString().length() == 0) {
@@ -123,8 +117,6 @@ public class CreateCounterItemFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString("title", binding.counterTitle.getText().toString());
             bundle.putInt("tsel", Integer.parseInt(binding.counterTarget.getText().toString()));
-            bundle.putString("description", binding.counterDescription
-                    .getText().toString());
             csf.setArguments(bundle);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.containerFragment, csf).commit();
@@ -141,10 +133,6 @@ public class CreateCounterItemFragment extends Fragment {
                     binding.counterTitle.setCursorVisible(true);
                     binding.counterTitle.setFocusableInTouchMode(true);
                     binding.counterTitle.setEnabled(true);
-
-                    binding.counterDescription.setCursorVisible(true);
-                    binding.counterDescription.setFocusableInTouchMode(true);
-                    binding.counterDescription.setEnabled(true);
 
                     binding.counterTitle.requestFocus();
 

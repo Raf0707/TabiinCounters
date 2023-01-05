@@ -4,12 +4,12 @@
     <group>
 
         <item
-            android:id="@+id/fard_general"
+            android:id="@+id/counters"
             android:icon="@drawable/ic_baseline_exposure_plus_1_24"
             android:title="Счетчики" />
 
         <item
-            android:id="@+id/zickr_general"
+            android:id="@+id/zickrs"
             android:icon="@drawable/ic_baseline_pan_tool_alt_24"
             android:title="Зикры" />
 

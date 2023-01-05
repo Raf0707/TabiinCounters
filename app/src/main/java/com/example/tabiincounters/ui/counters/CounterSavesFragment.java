@@ -1,5 +1,7 @@
 package com.example.tabiincounters.ui.counters;
 
+import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -14,8 +16,8 @@ import android.widget.ProgressBar;
 
 import com.example.tabiincounters.R;
 import com.example.tabiincounters.adapters.counter.CounterAdapter;
-import com.example.tabiincounters.database.CounterItems;
 import com.example.tabiincounters.databinding.FragmentCounterSavesBinding;
+import com.example.tabiincounters.ui.counters.counter.CreateCounterItemFragment;
 
 
 public class CounterSavesFragment extends Fragment {
@@ -29,6 +31,13 @@ public class CounterSavesFragment extends Fragment {
 
         binding = FragmentCounterSavesBinding
                 .inflate(inflater, container, false);
+
+        binding.fabAddCounter.setOnClickListener(v -> {
+            changeFragment(getActivity(),
+                    new CreateCounterItemFragment(),
+                    R.id.containerFragment,
+                    savedInstanceState);
+        });
 
         return binding.getRoot();
 

@@ -47,7 +47,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="center"
-                            android:text="Tabiin"
+                            android:text="TabiinCounters"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="center"
-                            android:text="@string/from_tabiin_rtx"
+                            android:text="from Tabiin"
                             android:textSize="24sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -190,7 +190,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/kontainerFragmentApp"
+        android:id="@+id/containerFragmentApp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="80dp">

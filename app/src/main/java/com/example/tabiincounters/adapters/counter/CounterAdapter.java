@@ -1,79 +1,62 @@
 package com.example.tabiincounters.adapters.counter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tabiincounters.R;
-import com.example.tabiincounters.database.CounterItems;
-import com.google.android.material.button.MaterialButton;
+import com.example.tabiincounters.databinding.CounterItemCreateBinding;
+import com.example.tabiincounters.databinding.CounterItemElementBinding;
+import com.example.tabiincounters.databinding.FragmentCounterSavesBinding;
+import com.example.tabiincounters.domain.model.CounterItem;
 
-import java.util.List;
+public class CounterAdapter extends ListAdapter<CounterItem, CounterAdapter.ViewHolder> {
 
-public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.CounterViewHolder> {
-
-    private Context context;
-    private List<CounterItems> counterItemsList;
-    private HandleItemClick clickListener;
-
-    public CounterAdapter(Context context, HandleItemClick clickListener) {
-        this.context = context;
-        this.clickListener = clickListener;
+    public CounterAdapter() {
+        super(CALLBACK);
     }
 
-    public void setItemsList(List<CounterItems> counterItems) {
-        this.counterItemsList = counterItemsList;
-        notifyDataSetChanged();
-    }
+    private static final DiffUtil.ItemCallback<CounterItem> CALLBACK = new DiffUtil.ItemCallback<CounterItem>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull CounterItem oldItem, @NonNull CounterItem newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull CounterItem oldItem, @NonNull CounterItem newItem) {
+            return oldItem.getTitle().equals(newItem.getTitle());
+        }
+    };
 
     @NonNull
     @Override
-    public CounterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.counter_item_element, parent, false);
-        return new CounterViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.counter_item_element, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CounterViewHolder holder, int position) {
-        holder.itemName.setText(this.counterItemsList.get(position).itemName);
-
-        holder.itemView.setOnClickListener(view -> {
-            clickListener.itemClick(counterItemsList.get(position));
-        });
-
-        holder.delItem.setOnClickListener(view -> {
-            clickListener.removeItem(counterItemsList.get(position));
-        });
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        CounterItem counterItem = getItem(position);
+        holder.binding.titleId.setText(counterItem.getTitle());
+        holder.binding.targetId.setText(counterItem.getTarget());
     }
 
-    @Override
-    public int getItemCount() {
-        if (counterItemsList == null || counterItemsList.size() == 0) {
-            return 0;
-        } else {
-            return counterItemsList.size();
-        }
+    public CounterItem getCounterItem(int position) {
+        return getItem(position);
     }
 
-    public class CounterViewHolder extends RecyclerView.ViewHolder {
-        private TextView itemName;
-        private MaterialButton delItem;
-        public CounterViewHolder(@NonNull View itemView) {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        CounterItemElementBinding binding;
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemName = itemView.findViewById(R.id.itemId);
-            delItem = itemView.findViewById(R.id.deleteDBCounterItem);
-
+            binding = CounterItemElementBinding.bind(itemView);
         }
     }
-
-    public interface HandleItemClick {
-        void itemClick(CounterItems counterItems);
-        void removeItem(CounterItems counterItems);
-    }
-
 }

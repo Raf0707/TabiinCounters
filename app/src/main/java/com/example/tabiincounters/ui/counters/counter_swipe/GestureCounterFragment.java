@@ -35,7 +35,7 @@ public class GestureCounterFragment extends Fragment {
 
         handler = new Handler();
 
-        binding.settingsGestureCounter.setOnClickListener(view -> {
+        binding.openSettingsBtn.setOnClickListener(view -> {
             changeFragment(requireActivity(),
                     new SettingsFragment(),
                     R.id.containerFragment,
@@ -43,7 +43,7 @@ public class GestureCounterFragment extends Fragment {
             );
         });
 
-        binding.counterGestureInfo.setOnClickListener(view -> {
+        binding.openTutorialBtn.setOnClickListener(view -> {
             changeFragment(requireActivity(),
                     new TutorialFragment(),
                     R.id.containerFragment,
