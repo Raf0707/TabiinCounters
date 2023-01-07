@@ -34,6 +34,10 @@ public class CreateCounterItemFragment extends Fragment {
     private Handler handler;
     private String defaultValue = "10";
     private int maxValue;
+    CounterMainFragment cmf;
+    CounterBetaFragment cbf;
+    GestureCounterFragment gcf;
+    Fragment f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +47,10 @@ public class CreateCounterItemFragment extends Fragment {
                 .inflate(inflater, container, false);
 
         handler = new Handler();
+
+        cmf = new CounterMainFragment();
+        cbf = new CounterBetaFragment();
+        gcf = new GestureCounterFragment();
 
         binding.counterTitle.setCursorVisible(true);
         binding.counterTitle.setFocusableInTouchMode(true);
@@ -125,40 +133,35 @@ public class CreateCounterItemFragment extends Fragment {
                         "Вы не выбрали режим, по умолчанию Linear",
                         Snackbar.LENGTH_LONG);
                 snackbar.show();
-            } else {
-                binding.counterModes.setOnClickListener(v -> {
-                    RadioButton rb = (RadioButton) v;
-                    switch (rb.getId()) {
-                        case R.id.linearProgressCounter:
-                            CounterMainFragment cmf = new CounterMainFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("title", binding.counterTitle.getText().toString());
-                            bundle.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
-                            cmf.setArguments(bundle);
-                            FragmentManager fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction().replace(R.id.containerFragment, cmf).commit();
-                            break;
-                        case R.id.circleProgressCounter:
-                            CounterBetaFragment cbf = new CounterBetaFragment();
-                            Bundle bundleBeta = new Bundle();
-                            bundleBeta.putString("title", binding.counterTitle.getText().toString());
-                            bundleBeta.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
-                            cbf.setArguments(bundleBeta);
-                            FragmentManager fragmentManagerBeta = getFragmentManager();
-                            fragmentManagerBeta.beginTransaction().replace(R.id.containerFragment, cbf).commit();
-                            break;
-                        case R.id.swipeCounter:
-                            GestureCounterFragment gcf = new GestureCounterFragment();
-                            Bundle bundleSwipe = new Bundle();
-                            bundleSwipe.putString("title", binding.counterTitle.getText().toString());
-                            bundleSwipe.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
-                            gcf.setArguments(bundleSwipe);
-                            FragmentManager fragmentManagerSwipe = getFragmentManager();
-                            fragmentManagerSwipe.beginTransaction().replace(R.id.containerFragment, gcf).commit();
-                            break;
-                    }
-                });
             }
+
+            Bundle bundle = new Bundle();
+            FragmentManager fragmentManager = getFragmentManager();
+            bundle.putString("title", binding.counterTitle.getText().toString());
+            bundle.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
+
+            if ((binding.linearProgressCounter.isChecked()) &&
+                    (!(binding.circleProgressCounter.isChecked())) &&
+                    (!(binding.swipeCounter.isChecked()))) {
+
+                cmf.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.containerFragment, cmf).commit();
+
+            } else if ((!(binding.linearProgressCounter.isChecked())) &&
+                    (binding.circleProgressCounter.isChecked()) &&
+                    (!(binding.swipeCounter.isChecked()))) {
+
+                cbf.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.containerFragment, cbf).commit();
+
+            } else if ((!(binding.linearProgressCounter.isChecked())) &&
+                    (!(binding.circleProgressCounter.isChecked())) &&
+                    (binding.swipeCounter.isChecked())) {
+
+                gcf.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.containerFragment, gcf).commit();
+            }
+
 
         });
 
