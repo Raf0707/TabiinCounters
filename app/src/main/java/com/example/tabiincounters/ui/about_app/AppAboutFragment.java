@@ -106,7 +106,7 @@ public class AppAboutFragment extends Fragment {
         binding.vkGroupBtn.setOnLongClickListener(view -> {
             addOnClick(view, getString(R.string.vk_tabiin_coyplink),
                     ClipData.newPlainText(getString(R.string.getContext),
-                            getString(R.string.tabiin_rtx)));
+                            getString(R.string.tabiin)));
             return true;
         });
 
@@ -159,7 +159,7 @@ public class AppAboutFragment extends Fragment {
 
         binding.vkGroupBtn.setOnClickListener(v -> new CustomTabUtil()
                 .openCustomTab(getActivity(),
-                        getString(R.string.tabiin_rtx),
+                        getString(R.string.tabiin),
                         R.color.purple_300));
 
         binding.otherAppsBtn.setOnClickListener(view -> {

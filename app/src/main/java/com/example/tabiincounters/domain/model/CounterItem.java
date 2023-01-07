@@ -12,10 +12,10 @@ public class CounterItem {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    public CounterItem(String title, int target) {
+    public CounterItem(String title, int target, int progress) {
         this.title = title;
         this.target = target;
-        progress = 0;
+        this.progress = progress;
     }
 
     public String getTitle() {

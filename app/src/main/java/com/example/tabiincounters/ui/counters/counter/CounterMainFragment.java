@@ -144,6 +144,8 @@ public class CounterMainFragment extends Fragment {
                 }
             }
 
+
+
         });
 
         binding.editCounterBtn.setOnClickListener(view -> {
