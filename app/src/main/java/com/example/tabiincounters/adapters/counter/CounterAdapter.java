@@ -45,7 +45,14 @@ public class CounterAdapter extends ListAdapter<CounterItem, CounterAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CounterItem counterItem = getItem(position);
         holder.binding.titleId.setText(counterItem.getTitle());
-        holder.binding.targetId.setText(counterItem.getTarget());
+        holder.binding.targetId.setText("Цель: " + counterItem.getTarget());
+        holder.binding.progressId
+                .setText(new StringBuilder()
+                        .append("Прогресс: ")
+                        .append(counterItem.getProgress())
+                        .append("/")
+                        .append(counterItem.getTarget())
+                        .toString());
     }
 
     public CounterItem getCounterItem(int position) {

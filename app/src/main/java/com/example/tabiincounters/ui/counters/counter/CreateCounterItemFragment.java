@@ -37,7 +37,6 @@ public class CreateCounterItemFragment extends Fragment {
     CounterMainFragment cmf;
     CounterBetaFragment cbf;
     GestureCounterFragment gcf;
-    Fragment f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +59,24 @@ public class CreateCounterItemFragment extends Fragment {
         binding.counterTitle.setFocusableInTouchMode(true);
         binding.counterTitle.setEnabled(true);
 
+        binding.saveCounterNote.setOnClickListener(v -> {
+            binding.counterTitle.setText(binding
+                    .counterTitle
+                    .getText()
+                    .toString()
+                    .replaceAll("[\\.\\-,\\s]+", ""));
+
+            binding.counterTitle.setCursorVisible(false);
+            binding.counterTitle.setFocusableInTouchMode(false);
+            binding.counterTitle.setEnabled(false);
+
+            binding.counterTarget.setCursorVisible(false);
+            binding.counterTarget.setFocusableInTouchMode(false);
+            binding.counterTarget.setEnabled(false);
+
+
+        });
+
         binding.createCounterNote.setOnClickListener(view -> {
             // saveText()
             binding.counterTitle.setText(binding
@@ -72,9 +89,9 @@ public class CreateCounterItemFragment extends Fragment {
             binding.counterTitle.setFocusableInTouchMode(false);
             binding.counterTitle.setEnabled(false);
 
-            binding.counterTitle.setCursorVisible(false);
-            binding.counterTitle.setFocusableInTouchMode(false);
-            binding.counterTitle.setEnabled(false);
+            binding.counterTarget.setCursorVisible(false);
+            binding.counterTarget.setFocusableInTouchMode(false);
+            binding.counterTarget.setEnabled(false);
 
 
             if (binding.counterTarget
@@ -138,7 +155,8 @@ public class CreateCounterItemFragment extends Fragment {
             Bundle bundle = new Bundle();
             FragmentManager fragmentManager = getFragmentManager();
             bundle.putString("title", binding.counterTitle.getText().toString());
-            bundle.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
+            bundle.putInt("target",
+                    Integer.parseInt(binding.counterTarget.getText().toString()));
 
             if ((binding.linearProgressCounter.isChecked()) &&
                     (!(binding.circleProgressCounter.isChecked())) &&
@@ -237,6 +255,14 @@ public class CreateCounterItemFragment extends Fragment {
                 });
 
         binding.cancelCreatingCounter.setOnClickListener(view -> {
+            changeFragment(requireActivity(),
+                    new CounterSavesFragment(),
+                    R.id.containerFragment,
+                    savedInstanceState
+            );
+        });
+
+        binding.deleteCounterNote.setOnClickListener(view -> {
             changeFragment(requireActivity(),
                     new CounterSavesFragment(),
                     R.id.containerFragment,

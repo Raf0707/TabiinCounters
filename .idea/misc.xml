@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_baseline_restart_alt_24.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2095" />
         <entry key="app/src/main/res/drawable/bg_roundrect_ripple_light_border.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable/ic_info.xml" value="0.1935" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_create.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_element.xml" value="0.33489583333333334" />

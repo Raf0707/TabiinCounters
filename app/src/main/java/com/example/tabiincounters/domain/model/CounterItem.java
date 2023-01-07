@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 public class CounterItem {
     private String title;
     private int target;
+    private int progress;
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -14,6 +15,7 @@ public class CounterItem {
     public CounterItem(String title, int target) {
         this.title = title;
         this.target = target;
+        progress = 0;
     }
 
     public String getTitle() {
@@ -38,5 +40,13 @@ public class CounterItem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 }

@@ -56,6 +56,21 @@
                 android:gravity="center"
                 android:singleLine="true">
             </TextView>
+
+            <TextView
+                android:id="@+id/progressId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/purple_300"
+                android:textSize="30dp"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:singleLine="true">
+            </TextView>
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

@@ -32,6 +32,13 @@ public class CounterSavesFragment extends Fragment {
         binding = FragmentCounterSavesBinding
                 .inflate(inflater, container, false);
 
+        /*
+        if (counterAdapter.getCurrentList().size() == 0) {
+            binding.noRes.setVisibility(View.VISIBLE);
+        }
+        // не работает
+         */
+
         binding.fabAddCounter.setOnClickListener(v -> {
             changeFragment(getActivity(),
                     new CreateCounterItemFragment(),

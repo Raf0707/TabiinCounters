@@ -5,10 +5,12 @@ import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,8 +24,11 @@ import com.example.tabiincounters.R;
 import com.example.tabiincounters.databinding.FragmentCounterMainBinding;
 import com.example.tabiincounters.ui.SettingsFragment;
 import com.example.tabiincounters.ui.counters.CounterSavesFragment;
+import com.example.tabiincounters.ui.counters.counter_beta.CounterBetaFragment;
+import com.example.tabiincounters.ui.counters.counter_swipe.GestureCounterFragment;
 import com.example.tabiincounters.utils.CallBack;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.MessageFormat;
@@ -37,6 +42,9 @@ public class CounterMainFragment extends Fragment {
     private int maxValue;
     private SharedPreferences sPrefs;
     private Handler handler;
+    private String selectMode = "Linear counter";
+    CounterBetaFragment cbf;
+    GestureCounterFragment gcf;
 
     private static final TimeInterpolator GAUGE_ANIMATION_INTERPOLATOR =
             new DecelerateInterpolator(2);
@@ -46,6 +54,7 @@ public class CounterMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         binding = FragmentCounterMainBinding
                 .inflate(inflater, container, false);
 
@@ -53,11 +62,17 @@ public class CounterMainFragment extends Fragment {
         if (bundle != null) {
             String title = bundle.getString("title");
             int target = bundle.getInt("target");
+            int progress = bundle.getInt("progress");
 
             binding.counterTitle.setText(title);
             binding.counterTarget.setText(Integer.toString(target));
             binding.counterProgress.setMax(target);
+            currentCount = progress;
+            binding.counterProgress.setProgress(progress);
         }
+
+        cbf = new CounterBetaFragment();
+        gcf = new GestureCounterFragment();
 
         handler = new Handler();
 
@@ -315,8 +330,12 @@ public class CounterMainFragment extends Fragment {
             );
         });
 
+        binding.changeCounterModeBtn.setOnClickListener(v -> {
+            changeModeCounterAlert();
+        });
+
         binding.counterResetBtn.setOnClickListener(view -> {
-            if (currentCount != 0) onMaterialAlert();
+            if (currentCount != 0) resetCounterAlert();
         });
 
         binding.openSettingsBtn.setOnClickListener(view -> {
@@ -348,7 +367,7 @@ public class CounterMainFragment extends Fragment {
         }
     };
 
-    public void onMaterialAlert() {
+    public void resetCounterAlert() {
         new MaterialAlertDialogBuilder(requireContext(),
                 R.style.AlertDialogTheme)
                 .setTitle("Reset")
@@ -371,6 +390,43 @@ public class CounterMainFragment extends Fragment {
                     animatorMaterial
                             .setDuration(GAUGE_ANIMATION_DURATION);
                     animatorMaterial.start();
+                })
+                .setNeutralButton("Отмена",
+                        (dialogInterface, i) ->
+                                dialogInterface.cancel())
+                .show();
+    }
+
+    public void changeModeCounterAlert() {
+
+        Bundle bundle = new Bundle();
+        FragmentManager fragmentManager = getFragmentManager();
+        bundle.putString("title", binding.counterTitle.getText().toString());
+        bundle.putInt("target",
+                Integer.parseInt(binding.counterTarget.getText().toString()));
+        bundle.putInt("progress", currentCount);
+        final String[] counterModes = {"Linear counter", "Circle counter", "Swipe counter"};
+        new MaterialAlertDialogBuilder(requireContext(),
+                R.style.AlertDialogTheme)
+                .setTitle("Сменить режим счетчика")
+                //.setMessage("Выберете новый режим")
+                .setSingleChoiceItems(counterModes, 0, (dialogInterface, i) -> {
+                    selectMode = counterModes[i];
+                    Snackbar.make(requireView(), "Вы выбрали " + selectMode,
+                            BaseTransientBottomBar.LENGTH_SHORT).show();
+                })
+                .setPositiveButton("Сменить", (dialogInterface, i) -> {
+                    if (selectMode == "Linear counter") {
+                        dialogInterface.cancel();
+                    } else if (selectMode == "Circle counter") {
+                        cbf.setArguments(bundle);
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.containerFragment, cbf).commit();
+                    } else if (selectMode == "Swipe counter") {
+                        gcf.setArguments(bundle);
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.containerFragment, gcf).commit();
+                    }
                 })
                 .setNeutralButton("Отмена",
                         (dialogInterface, i) ->
