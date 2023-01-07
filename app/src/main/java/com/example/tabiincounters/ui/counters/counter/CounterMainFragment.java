@@ -49,6 +49,16 @@ public class CounterMainFragment extends Fragment {
         binding = FragmentCounterMainBinding
                 .inflate(inflater, container, false);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String title = bundle.getString("title");
+            int target = bundle.getInt("target");
+
+            binding.counterTitle.setText(title);
+            binding.counterTarget.setText(Integer.toString(target));
+            binding.counterProgress.setMax(target);
+        }
+
         handler = new Handler();
 
         binding.saveCounterEditions.setOnClickListener(view -> {

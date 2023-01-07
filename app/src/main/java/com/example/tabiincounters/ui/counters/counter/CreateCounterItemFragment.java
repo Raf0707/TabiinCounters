@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +20,9 @@ import com.example.tabiincounters.databinding.CounterItemCreateBinding;
 
 import com.example.tabiincounters.R;
 import com.example.tabiincounters.ui.counters.CounterSavesFragment;
+import com.example.tabiincounters.ui.counters.counter_beta.BetaCounterViewModel;
+import com.example.tabiincounters.ui.counters.counter_beta.CounterBetaFragment;
+import com.example.tabiincounters.ui.counters.counter_swipe.GestureCounterFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Random;
@@ -47,7 +52,6 @@ public class CreateCounterItemFragment extends Fragment {
         binding.counterTitle.setFocusableInTouchMode(true);
         binding.counterTitle.setEnabled(true);
 
-
         binding.createCounterNote.setOnClickListener(view -> {
             // saveText()
             binding.counterTitle.setText(binding
@@ -69,7 +73,7 @@ public class CreateCounterItemFragment extends Fragment {
                     .getText().toString().length() == 0) {
                 binding.counterTarget.setText(defaultValue);
                 maxValue = Integer.parseInt(binding
-                        .counterTitle
+                        .counterTarget
                         .getText()
                         .toString());
 
@@ -83,7 +87,7 @@ public class CreateCounterItemFragment extends Fragment {
             } else {
 
                 if (Integer.parseInt(binding
-                        .counterTitle
+                        .counterTarget
                         .getText().toString()) <= 0) {
                     Snackbar.make(requireView(),
                                     new StringBuilder()
@@ -100,7 +104,7 @@ public class CreateCounterItemFragment extends Fragment {
                             .show();
 
                     maxValue = Integer.parseInt(binding
-                            .counterTitle
+                            .counterTarget
                             .getText().toString());
 
                 }
@@ -112,14 +116,49 @@ public class CreateCounterItemFragment extends Fragment {
                         .setText(getRandomString(15));
             }
 
-            //CreateCounterItemFragment ccit = new CreateCounterItemFragment();
-            CounterSavesFragment csf = new CounterSavesFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("title", binding.counterTitle.getText().toString());
-            bundle.putInt("tsel", Integer.parseInt(binding.counterTarget.getText().toString()));
-            csf.setArguments(bundle);
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.containerFragment, csf).commit();
+            if ((!(binding.linearProgressCounter.isChecked())) &&
+                    (!(binding.circleProgressCounter.isChecked())) &&
+                    (!(binding.swipeCounter.isChecked()))) {
+                binding.linearProgressCounter.setChecked(true);
+
+                Snackbar snackbar = Snackbar.make(view,
+                        "Вы не выбрали режим, по умолчанию Linear",
+                        Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                binding.counterModes.setOnClickListener(v -> {
+                    RadioButton rb = (RadioButton) v;
+                    switch (rb.getId()) {
+                        case R.id.linearProgressCounter:
+                            CounterMainFragment cmf = new CounterMainFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("title", binding.counterTitle.getText().toString());
+                            bundle.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
+                            cmf.setArguments(bundle);
+                            FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction().replace(R.id.containerFragment, cmf).commit();
+                            break;
+                        case R.id.circleProgressCounter:
+                            CounterBetaFragment cbf = new CounterBetaFragment();
+                            Bundle bundleBeta = new Bundle();
+                            bundleBeta.putString("title", binding.counterTitle.getText().toString());
+                            bundleBeta.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
+                            cbf.setArguments(bundleBeta);
+                            FragmentManager fragmentManagerBeta = getFragmentManager();
+                            fragmentManagerBeta.beginTransaction().replace(R.id.containerFragment, cbf).commit();
+                            break;
+                        case R.id.swipeCounter:
+                            GestureCounterFragment gcf = new GestureCounterFragment();
+                            Bundle bundleSwipe = new Bundle();
+                            bundleSwipe.putString("title", binding.counterTitle.getText().toString());
+                            bundleSwipe.putInt("target", Integer.parseInt(binding.counterTarget.getText().toString()));
+                            gcf.setArguments(bundleSwipe);
+                            FragmentManager fragmentManagerSwipe = getFragmentManager();
+                            fragmentManagerSwipe.beginTransaction().replace(R.id.containerFragment, gcf).commit();
+                            break;
+                    }
+                });
+            }
 
         });
 
@@ -169,6 +208,27 @@ public class CreateCounterItemFragment extends Fragment {
                     if (imm != null) {
                         imm.showSoftInput(binding.counterTitle,
                                 InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.counterTarget,
+                                InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.counterTitle,
+                                InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.modeCounterTv,
+                                InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.counterModes,
+                                InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.counterTitle,
+                                InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.cancelCreatingCounter,
+                                InputMethodManager.SHOW_FORCED);
+
+                        imm.showSoftInput(binding.createCounterNote,
+                                InputMethodManager.SHOW_FORCED);
                     }
 
                 });
@@ -209,4 +269,5 @@ public class CreateCounterItemFragment extends Fragment {
         return sb.toString();
 
     }
+
 }

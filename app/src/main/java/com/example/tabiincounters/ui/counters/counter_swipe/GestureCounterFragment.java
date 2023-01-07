@@ -33,6 +33,15 @@ public class GestureCounterFragment extends Fragment {
         binding = FragmentGestureCounterBinding
                 .inflate(inflater, container, false);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String title = bundle.getString("title");
+            int target = bundle.getInt("target");
+
+            binding.counterTitle.setText(title);
+            binding.counterTarget.setText(Integer.toString(target));
+        }
+
         handler = new Handler();
 
         binding.openSettingsBtn.setOnClickListener(view -> {

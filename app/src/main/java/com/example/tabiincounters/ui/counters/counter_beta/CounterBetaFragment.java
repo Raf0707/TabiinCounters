@@ -51,6 +51,16 @@ public class CounterBetaFragment extends Fragment {
         binding = FragmentCounterBetaBinding
                 .inflate(inflater, container, false);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String title = bundle.getString("title");
+            int target = bundle.getInt("target");
+
+            binding.counterTitle.setText(title);
+            binding.counterTarget.setText(Integer.toString(target));
+            binding.counterBetaProgress.setMax(target);
+        }
+
         handler = new Handler();
 
         binding.counterTarget.setCursorVisible(true);
