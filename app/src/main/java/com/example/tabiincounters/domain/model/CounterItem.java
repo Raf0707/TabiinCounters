@@ -11,12 +11,23 @@ public class CounterItem {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+/*
+    public CounterItem(String title, int target) {
+        this.title = title;
+        this.target = target;
+        progress = 0;
+    }
+
+ */
+
 
     public CounterItem(String title, int target, int progress) {
         this.title = title;
         this.target = target;
         this.progress = progress;
     }
+
+
 
     public String getTitle() {
         return title;

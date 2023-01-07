@@ -22,6 +22,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.tabiincounters.R;
 import com.example.tabiincounters.databinding.FragmentCounterMainBinding;
+import com.example.tabiincounters.domain.dao.CounterItemDao;
+import com.example.tabiincounters.domain.model.CounterItem;
 import com.example.tabiincounters.ui.SettingsFragment;
 import com.example.tabiincounters.ui.counters.CounterSavesFragment;
 import com.example.tabiincounters.ui.counters.counter_beta.CounterBetaFragment;
@@ -45,6 +47,7 @@ public class CounterMainFragment extends Fragment {
     private String selectMode = "Linear counter";
     CounterBetaFragment cbf;
     GestureCounterFragment gcf;
+    CounterItemDao counterItemDao;
 
     private static final TimeInterpolator GAUGE_ANIMATION_INTERPOLATOR =
             new DecelerateInterpolator(2);
@@ -57,6 +60,14 @@ public class CounterMainFragment extends Fragment {
 
         binding = FragmentCounterMainBinding
                 .inflate(inflater, container, false);
+/*
+        CounterItem counterItem = new CounterItem(
+                binding.counterTitle.getText().toString(),
+                Integer.parseInt
+                        (binding.counterTarget.getText().toString()),
+                binding.counterProgress.getProgress());
+
+ */
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -144,7 +155,7 @@ public class CounterMainFragment extends Fragment {
                 }
             }
 
-
+            //counterItemDao.update(counterItem);
 
         });
 
@@ -281,6 +292,8 @@ public class CounterMainFragment extends Fragment {
             //saveText();
             //loadText();
 
+            //counterItemDao.update(counterItem);
+
         });
 
         binding.counterBtnMinus.setOnClickListener(view -> {
@@ -319,6 +332,8 @@ public class CounterMainFragment extends Fragment {
             animatorMinus.setDuration(GAUGE_ANIMATION_DURATION);
             animatorMinus.start();
 
+
+            //counterItemDao.update(counterItem);
             //saveText();
             //loadText();
 
@@ -338,6 +353,7 @@ public class CounterMainFragment extends Fragment {
 
         binding.counterResetBtn.setOnClickListener(view -> {
             if (currentCount != 0) resetCounterAlert();
+            //counterItemDao.update(counterItem);
         });
 
         binding.openSettingsBtn.setOnClickListener(view -> {

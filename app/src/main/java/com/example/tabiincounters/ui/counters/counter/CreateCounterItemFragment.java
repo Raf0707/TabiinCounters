@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentManager;
 import com.example.tabiincounters.databinding.CounterItemCreateBinding;
 
 import com.example.tabiincounters.R;
+import com.example.tabiincounters.domain.dao.CounterItemDao;
+import com.example.tabiincounters.domain.model.CounterItem;
 import com.example.tabiincounters.ui.counters.CounterSavesFragment;
 import com.example.tabiincounters.ui.counters.counter_beta.BetaCounterViewModel;
 import com.example.tabiincounters.ui.counters.counter_beta.CounterBetaFragment;
@@ -37,6 +39,7 @@ public class CreateCounterItemFragment extends Fragment {
     CounterMainFragment cmf;
     CounterBetaFragment cbf;
     GestureCounterFragment gcf;
+    CounterItemDao counterItemDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,6 +153,7 @@ public class CreateCounterItemFragment extends Fragment {
                         "Вы не выбрали режим, по умолчанию Linear",
                         Snackbar.LENGTH_LONG);
                 snackbar.show();
+
             }
 
             Bundle bundle = new Bundle();
@@ -180,7 +184,15 @@ public class CreateCounterItemFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.containerFragment, gcf).commit();
             }
 
+            /*
+            CounterItem counterItem = new CounterItem(
+                    binding.counterTitle.getText().toString(),
+                    Integer.parseInt
+                            (binding.counterTarget.getText().toString()), 0);
 
+            counterItemDao.insert(counterItem);
+
+             */
         });
 
         binding.editCounterNote

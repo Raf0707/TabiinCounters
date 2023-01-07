@@ -15,6 +15,7 @@ import com.example.tabiincounters.R;
 import com.example.tabiincounters.databinding.CounterItemCreateBinding;
 import com.example.tabiincounters.databinding.CounterItemElementBinding;
 import com.example.tabiincounters.databinding.FragmentCounterSavesBinding;
+import com.example.tabiincounters.domain.dao.CounterItemDao;
 import com.example.tabiincounters.domain.model.CounterItem;
 import com.example.tabiincounters.domain.repo.CounterRepository;
 import com.example.tabiincounters.ui.counters.counter.CounterViewModel;
@@ -24,7 +25,7 @@ public class CounterAdapter extends ListAdapter<CounterItem, CounterAdapter.View
     public CounterAdapter() {
         super(CALLBACK);
     }
-
+    private CounterItemDao counterItemDao;
 
     private static final DiffUtil.ItemCallback<CounterItem> CALLBACK = new DiffUtil.ItemCallback<CounterItem>() {
         @Override
@@ -62,7 +63,8 @@ public class CounterAdapter extends ListAdapter<CounterItem, CounterAdapter.View
                         .append(counterItem.getTarget())
                         .toString());
         holder.binding.deleteDBCounterItem.setOnClickListener(v -> {
-            getCounterItem(position);
+            //getCounterItem(position);
+            counterItemDao.delete(counterItem);
         });
     }
 
