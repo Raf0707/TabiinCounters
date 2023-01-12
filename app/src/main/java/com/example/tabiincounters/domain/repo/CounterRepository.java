@@ -3,8 +3,6 @@ package com.example.tabiincounters.domain.repo;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.tabiincounters.database.CounterDatabase;
 import com.example.tabiincounters.domain.dao.CounterItemDao;
 import com.example.tabiincounters.domain.model.CounterItem;
@@ -13,7 +11,7 @@ import java.util.List;
 
 public class CounterRepository {
     private CounterItemDao counterItemDao;
-    private LiveData<List<CounterItem>> counterlist;
+    private List<CounterItem> counterlist;
 
     public CounterRepository(Application application) {
         CounterDatabase counterDatabase = CounterDatabase.getInstance(application);
@@ -30,7 +28,7 @@ public class CounterRepository {
     public void deleteData(CounterItem counterItem) {
         new DeleteTask(counterItemDao).execute(counterItem);
     }
-    public LiveData<List<CounterItem>> getAllData() {
+    public List<CounterItem> getAllData() {
         return counterlist;
     }
 
@@ -43,7 +41,7 @@ public class CounterRepository {
 
         @Override
         protected Void doInBackground(CounterItem... counterItems) {
-            counterItemDao.insert(counterItems[0]);
+            counterItemDao.insertCounter(counterItems[0]);
             return null;
         }
     }
@@ -57,7 +55,7 @@ public class CounterRepository {
 
         @Override
         protected Void doInBackground(CounterItem... counterItems) {
-            counterItemDao.update(counterItems[0]);
+            counterItemDao.updateCounter(counterItems[0]);
             return null;
         }
     }
@@ -71,7 +69,7 @@ public class CounterRepository {
 
         @Override
         protected Void doInBackground(CounterItem... counterItems) {
-            counterItemDao.delete(counterItems[0]);
+            counterItemDao.deleteCounter(counterItems[0]);
             return null;
         }
     }

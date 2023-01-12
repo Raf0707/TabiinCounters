@@ -24,6 +24,7 @@ import com.example.tabiincounters.R;
 import com.example.tabiincounters.databinding.FragmentCounterMainBinding;
 import com.example.tabiincounters.domain.dao.CounterItemDao;
 import com.example.tabiincounters.domain.model.CounterItem;
+import com.example.tabiincounters.domain.repo.CounterRepository;
 import com.example.tabiincounters.ui.SettingsFragment;
 import com.example.tabiincounters.ui.counters.CounterSavesFragment;
 import com.example.tabiincounters.ui.counters.counter_beta.CounterBetaFragment;
@@ -47,7 +48,9 @@ public class CounterMainFragment extends Fragment {
     private String selectMode = "Linear counter";
     CounterBetaFragment cbf;
     GestureCounterFragment gcf;
-    CounterItemDao counterItemDao;
+    CounterViewModel counterViewModel;
+    CounterRepository counterRepository;
+    CounterItem counterItem;
 
     private static final TimeInterpolator GAUGE_ANIMATION_INTERPOLATOR =
             new DecelerateInterpolator(2);
@@ -60,14 +63,17 @@ public class CounterMainFragment extends Fragment {
 
         binding = FragmentCounterMainBinding
                 .inflate(inflater, container, false);
-/*
-        CounterItem counterItem = new CounterItem(
+
+        counterViewModel = new CounterViewModel(requireActivity().getApplication());
+        counterRepository = new CounterRepository(requireActivity().getApplication());
+        /*
+        counterItem = new CounterItem(
                 binding.counterTitle.getText().toString(),
-                Integer.parseInt
-                        (binding.counterTarget.getText().toString()),
+                Integer.parseInt(binding.counterTarget.getText().toString()),
                 binding.counterProgress.getProgress());
 
- */
+         */
+
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -81,6 +87,8 @@ public class CounterMainFragment extends Fragment {
             currentCount = progress;
             binding.counterProgress.setProgress(progress);
         }
+
+        counterItem = new CounterItem();
 
         cbf = new CounterBetaFragment();
         gcf = new GestureCounterFragment();
@@ -155,7 +163,7 @@ public class CounterMainFragment extends Fragment {
                 }
             }
 
-            //counterItemDao.update(counterItem);
+            counterViewModel.update(counterItem);
 
         });
 
@@ -292,7 +300,7 @@ public class CounterMainFragment extends Fragment {
             //saveText();
             //loadText();
 
-            //counterItemDao.update(counterItem);
+            counterViewModel.update(counterItem);
 
         });
 
@@ -333,7 +341,7 @@ public class CounterMainFragment extends Fragment {
             animatorMinus.start();
 
 
-            //counterItemDao.update(counterItem);
+            counterViewModel.update(counterItem);
             //saveText();
             //loadText();
 
@@ -353,7 +361,7 @@ public class CounterMainFragment extends Fragment {
 
         binding.counterResetBtn.setOnClickListener(view -> {
             if (currentCount != 0) resetCounterAlert();
-            //counterItemDao.update(counterItem);
+            counterViewModel.update(counterItem);
         });
 
         binding.openSettingsBtn.setOnClickListener(view -> {

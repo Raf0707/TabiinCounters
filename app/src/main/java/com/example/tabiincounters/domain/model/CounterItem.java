@@ -1,31 +1,35 @@
 package com.example.tabiincounters.domain.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "counters")
 public class CounterItem {
-    private String title;
-    private int target;
-    private int progress;
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    public int id;
+
+    @ColumnInfo(name = "title")
+    public String title;
+
+    @ColumnInfo(name = "target")
+    public int target;
+
+    @ColumnInfo(name = "progress")
+    public int progress;
+
+    @ColumnInfo(name = "completed")
+    public boolean completed;
+
 /*
-    public CounterItem(String title, int target) {
-        this.title = title;
-        this.target = target;
-        progress = 0;
-    }
-
- */
-
-
     public CounterItem(String title, int target, int progress) {
         this.title = title;
         this.target = target;
         this.progress = progress;
     }
+
+ */
 
 
 
@@ -60,4 +64,6 @@ public class CounterItem {
     public void setProgress(int progress) {
         this.progress = progress;
     }
+
+
 }

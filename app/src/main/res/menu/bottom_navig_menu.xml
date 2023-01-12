@@ -9,11 +9,6 @@
             android:title="Счетчики" />
 
         <item
-            android:id="@+id/zickrs"
-            android:icon="@drawable/ic_baseline_pan_tool_alt_24"
-            android:title="Зикры" />
-
-        <item
             android:id="@+id/about_app"
             android:icon="@drawable/ic_vector_info"
             android:title="О приложении" />

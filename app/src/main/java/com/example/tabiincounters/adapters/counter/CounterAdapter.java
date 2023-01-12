@@ -1,82 +1,92 @@
 package com.example.tabiincounters.adapters.counter;
 
-import android.app.Application;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tabiincounters.R;
-import com.example.tabiincounters.databinding.CounterItemCreateBinding;
 import com.example.tabiincounters.databinding.CounterItemElementBinding;
-import com.example.tabiincounters.databinding.FragmentCounterSavesBinding;
-import com.example.tabiincounters.domain.dao.CounterItemDao;
 import com.example.tabiincounters.domain.model.CounterItem;
-import com.example.tabiincounters.domain.repo.CounterRepository;
-import com.example.tabiincounters.ui.counters.counter.CounterViewModel;
 
-public class CounterAdapter extends ListAdapter<CounterItem, CounterAdapter.ViewHolder> {
+import java.util.List;
 
-    public CounterAdapter() {
-        super(CALLBACK);
+public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.MyViewHolder> {
+
+    private Context context;
+    private List<CounterItem> counterList;
+    HandleCounterClick clickListener;
+
+
+    public CounterAdapter(Context context, HandleCounterClick clickListener) {
+        this.context = context;
+        this.clickListener = clickListener;
     }
-    private CounterItemDao counterItemDao;
 
-    private static final DiffUtil.ItemCallback<CounterItem> CALLBACK = new DiffUtil.ItemCallback<CounterItem>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull CounterItem oldItem, @NonNull CounterItem newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull CounterItem oldItem, @NonNull CounterItem newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle());
-        }
-    };
+    public void setCounterList(List<CounterItem> counterList) {
+        this.counterList = counterList;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.counter_item_element, parent, false);
-        return new ViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CounterItem counterItem = getItem(position);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-
-
-        holder.binding.titleId.setText(counterItem.getTitle());
-        holder.binding.targetId.setText("Цель: " + counterItem.getTarget());
+        holder.binding.titleId.setText(this.counterList.get(position).title);
+        holder.binding.targetId.setText(new StringBuilder()
+                        .append("Цель: ")
+                .append(this.counterList.get(position).target).toString());
         holder.binding.progressId
                 .setText(new StringBuilder()
                         .append("Прогресс: ")
-                        .append(counterItem.getProgress())
+                        .append(this.counterList.get(position).progress)
                         .append("/")
-                        .append(counterItem.getTarget())
+                        .append(this.counterList.get(position).target)
                         .toString());
+
+        holder.itemView.setOnClickListener(v -> {
+            clickListener.itemClick(counterList.get(position));
+        });
+
         holder.binding.deleteDBCounterItem.setOnClickListener(v -> {
-            //getCounterItem(position);
-            counterItemDao.delete(counterItem);
+            clickListener.deleteItem(counterList.get(position));
+        });
+
+        holder.binding.editDBCounterItem.setOnClickListener(v -> {
+            clickListener.editItem(counterList.get(position));
         });
     }
 
-    public CounterItem getCounterItem(int position) {
-        return getItem(position);
+    @Override
+    public int getItemCount() {
+        if (counterList == null || counterList.size() == 0) {
+            return 0;
+        } else {
+            return counterList.size();
+        }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         CounterItemElementBinding binding;
-        public ViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = CounterItemElementBinding.bind(itemView);
         }
+    }
+
+    public interface HandleCounterClick {
+        void itemClick(CounterItem counterItem);
+        void deleteItem(CounterItem counterItem);
+        void editItem(CounterItem counterItem);
     }
 }

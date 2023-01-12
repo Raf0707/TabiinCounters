@@ -32,12 +32,14 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_create.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/layout/counter_item_element.xml" value="0.33489583333333334" />
+        <entry key="app/src/main/res/layout/create_counter_dialog.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_app_about.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_beta.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_main.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_saves.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_counter_settings.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_create_counter_item.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_edit_data_counter.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_general_counter.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_gesture_counter.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/fragment_gesture_counter_info.xml" value="0.35052083333333334" />

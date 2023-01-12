@@ -14,10 +14,10 @@ import java.util.List;
 @Dao
 public interface CounterItemDao {
     @Query("SELECT * FROM counters")
-    LiveData<List<CounterItem>> getAllCounters();
+    List<CounterItem> getAllCounters();
 
     @Query("SELECT * FROM counters WHERE id IN (:userIds)")
-    LiveData<List<CounterItem>> loadAllByIds(int[] userIds);
+    List<CounterItem> loadAllByIds(int[] userIds);
 
     @Query("SELECT * FROM counters WHERE title LIKE :title LIMIT 1")
     CounterItem findByName(String title);
@@ -26,11 +26,11 @@ public interface CounterItemDao {
     void insertAll(CounterItem...counterItems);
 
     @Insert
-    void insert(CounterItem counterItem);
+    void insertCounter(CounterItem counterItem);
 
     @Update
-    void update(CounterItem counterItem);
+    void updateCounter(CounterItem counterItem);
 
     @Delete
-    void delete(CounterItem counterItem);
+    void deleteCounter(CounterItem counterItem);
 }

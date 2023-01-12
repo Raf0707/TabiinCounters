@@ -11,17 +11,20 @@ import com.example.tabiincounters.domain.model.CounterItem;
 
 @Database(entities = {CounterItem.class}, version = 1)
 public abstract class CounterDatabase extends RoomDatabase {
-    private static CounterDatabase instance;
+
     public abstract CounterItemDao counterItemDao();
 
+    private static CounterDatabase INSTANCE;
+
     public static synchronized CounterDatabase getInstance(Context context) {
-        if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(),
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             CounterDatabase.class, "counter_database")
+                    .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build();
         }
 
-        return instance;
+        return INSTANCE;
     }
 }

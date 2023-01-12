@@ -26,7 +26,7 @@
         android:backgroundTint="@color/purple_300"
         android:src="@drawable/ic_baseline_add_task_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/recycleCounter"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,7 @@
         android:textColor="@color/purple_300"
         android:textSize="31sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/recycleCounter"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
