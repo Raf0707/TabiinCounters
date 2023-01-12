@@ -304,6 +304,15 @@ public class CounterMainFragment extends Fragment {
 
         });
 
+        binding.deleteCounterBtn.setOnClickListener(v -> {
+
+            changeFragment(requireActivity(),
+                    new CounterSavesFragment(),
+                    R.id.containerFragment,
+                    savedInstanceState
+            );
+        });
+
         binding.counterBtnMinus.setOnClickListener(view -> {
             //saveText();
             currentCount--;

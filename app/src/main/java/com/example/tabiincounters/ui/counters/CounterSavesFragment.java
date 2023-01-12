@@ -3,6 +3,7 @@ package com.example.tabiincounters.ui.counters;
 import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -69,7 +70,8 @@ public class CounterSavesFragment extends Fragment
         ctx = new WeakReference<>(this);
 
         binding.fabAddCounter.setOnClickListener(v -> {
-            counterItemDialog(false);
+            //counterItemDialog(false);
+            onMaterialAlert(false);
         });
 
         initRecycleView();
@@ -100,29 +102,32 @@ public class CounterSavesFragment extends Fragment
         });
     }
 
-    private void counterItemDialog(boolean isForEdit) {
-        AlertDialog alert =
-                new AlertDialog.Builder(getContext()).create();
+    public void onMaterialAlert(boolean isForEdit) {
+        MaterialAlertDialogBuilder alert =
+                new MaterialAlertDialogBuilder(getContext());
 
         View dialogView = getLayoutInflater()
                 .inflate(R.layout.create_counter_dialog, null);
 
+        alert.setTitle("Новый счетчик");
+        alert.setMessage("введите название и цель");
+        alert.setCancelable(true);
+
         EditText counterTitle = dialogView.findViewById(R.id.counterTitle);
         EditText counterTarget = dialogView.findViewById(R.id.counterTarget);
-        Button createCounterNote = dialogView.findViewById(R.id.createCounterNote);
-        Button cancelCreatingCounter = dialogView.findViewById(R.id.cancelCreatingCounter);
 
         if (isForEdit) {
-            //createCounterNote.setText("Изменить");
+            alert.setTitle("изменить счетчик");
             counterTitle.setText(counterForEdit.title);
             counterTarget.setText(counterForEdit.target + "");
         }
 
-        cancelCreatingCounter.setOnClickListener(v -> {
-            alert.dismiss();
+        alert.setNegativeButton("Отмена", (dialogInterface, i) -> {
+
         });
 
-        createCounterNote.setOnClickListener(view -> {
+
+        alert.setPositiveButton("ОК", (dialogInterface, i) -> {
             if (counterTitle.getText().toString().length() == 0) {
                 counterTitle.setText(getRandomString(12));
             }
@@ -140,14 +145,35 @@ public class CounterSavesFragment extends Fragment
                 counterViewModel.insert(counterTitle.getText().toString(),
                         Integer.parseInt(counterTarget.getText().toString()));
             }
-
-            alert.dismiss();
-
         });
 
         alert.setView(dialogView);
         alert.show();
+    }
 
+    public static String getRandomString( int length) {
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(3);
+            long result = 0;
+            switch (number) {
+                case 0:
+                    result = Math.round(Math.random() * 25 + 65);
+                    sb.append((char) result);
+                    break;
+                case 1:
+                    result = Math.round(Math.random() * 25 + 97);
+                    sb.append((char) result);
+                    break;
+                case 2:
+                    sb.append(new Random().nextInt(10));
+                    break;
+            }
+
+
+        }
+        return sb.toString();
     }
 
 
@@ -173,31 +199,7 @@ public class CounterSavesFragment extends Fragment
     @Override
     public void editItem(CounterItem counterItem) {
         this.counterForEdit = counterItem;
-        counterItemDialog(true);
-    }
-
-    public static String getRandomString ( int length){
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int number = random.nextInt(3);
-            long result = 0;
-            switch (number) {
-                case 0:
-                    result = Math.round(Math.random() * 25 + 65);
-                    sb.append((char) result);
-                    break;
-                case 1:
-                    result = Math.round(Math.random() * 25 + 97);
-                    sb.append((char) result);
-                    break;
-                case 2:
-                    sb.append(new Random().nextInt(10));
-                    break;
-            }
-
-
-        }
-        return sb.toString();
+        //counterItemDialog(true);
+        onMaterialAlert(true);
     }
 }
