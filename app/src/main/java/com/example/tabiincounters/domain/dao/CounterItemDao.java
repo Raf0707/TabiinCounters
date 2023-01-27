@@ -22,6 +22,9 @@ public interface CounterItemDao {
     @Query("SELECT * FROM counters WHERE title LIKE :title LIMIT 1")
     CounterItem findByName(String title);
 
+    //@Query("SELECT :counterItem FROM counters WHERE id = :id")
+    //List<CounterItem> getCounters(CounterItem counterItem, int id);
+
     @Insert
     void insertAll(CounterItem...counterItems);
 

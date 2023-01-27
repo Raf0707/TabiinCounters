@@ -27,8 +27,8 @@
     </style>
 
     <style name="CustomAnimationButton" parent="@style/Widget.AppCompat.Button">
-        <item name="colorButtonNormal">#1a237e</item>
-        <item name="colorControlHighlight">#673ab7</item>
+        <item name="colorButtonNormal">@color/purple_300</item>
+        <item name="colorControlHighlight">@color/purple_300</item>
         <item name="android:stateListAnimator">@drawable/btnshadow</item>
     </style>
 
@@ -92,7 +92,7 @@
         <item name="postSplashScreenTheme">@style/Theme.TabiinCounters</item>
 
 
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/purple_300</item>
 
     </style>
 

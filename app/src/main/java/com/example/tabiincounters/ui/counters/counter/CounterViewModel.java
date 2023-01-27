@@ -46,20 +46,16 @@ public class CounterViewModel extends AndroidViewModel {
         counterItem.target = target;
         counterDatabase.counterItemDao().insertCounter(counterItem);
         getAllCounterList();
-        //getCounterlistObserver();
     }
 
     public void update(CounterItem counterItem) {
         counterDatabase.counterItemDao().updateCounter(counterItem);
         getAllCounterList();
-        //getCounterlistObserver();
     }
 
     public void delete(CounterItem counterItem) {
         counterDatabase.counterItemDao().deleteCounter(counterItem);
         getAllCounterList();
-        //getCounterlistObserver();
-
     }
 
 }

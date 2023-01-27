@@ -2,8 +2,10 @@ package com.example.tabiincounters.ui.counters;
 
 import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,14 +24,11 @@ import android.widget.TextView;
 
 import com.example.tabiincounters.R;
 import com.example.tabiincounters.adapters.counter.CounterAdapter;
-import com.example.tabiincounters.databinding.CounterItemElementBinding;
-import com.example.tabiincounters.databinding.CreateCounterDialogBinding;
+import com.example.tabiincounters.database.CounterDatabase;
 import com.example.tabiincounters.databinding.FragmentCounterSavesBinding;
 import com.example.tabiincounters.domain.model.CounterItem;
-import com.example.tabiincounters.ui.counters.change_data.EditDataCounterFragment;
 import com.example.tabiincounters.ui.counters.counter.CounterMainFragment;
 import com.example.tabiincounters.ui.counters.counter.CounterViewModel;
-import com.example.tabiincounters.ui.counters.counter.CreateCounterItemFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -49,6 +48,13 @@ public class CounterSavesFragment extends Fragment
     private CounterViewModel counterViewModel;
     private CounterItem counterForEdit;
     private CounterMainFragment cmf;
+    private CounterDatabase counterDatabase;
+    private CounterAdapter.MyViewHolder holder;
+    private boolean edit;
+    private String title;
+    private int target;
+    private int progress;
+    private int id;
 
 
     @Override
@@ -66,6 +72,16 @@ public class CounterSavesFragment extends Fragment
                 (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory
                         .getInstance(getActivity().getApplication()))
                 .get(CounterViewModel.class);
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            title = bundle.getString("title", "title");
+            target = bundle.getInt("target", 10);
+            progress = bundle.getInt("progress", 0);
+            id = bundle.getInt("id");
+            edit = bundle.getBoolean("edit");
+        }
 
         ctx = new WeakReference<>(this);
 
@@ -115,9 +131,10 @@ public class CounterSavesFragment extends Fragment
 
         EditText counterTitle = dialogView.findViewById(R.id.counterTitle);
         EditText counterTarget = dialogView.findViewById(R.id.counterTarget);
+        TextView counterProgress = dialogView.findViewById(R.id.counterProgress);
 
         if (isForEdit) {
-            alert.setTitle("изменить счетчик");
+            alert.setTitle("Изменить счетчик");
             counterTitle.setText(counterForEdit.title);
             counterTarget.setText(counterForEdit.target + "");
         }
@@ -134,6 +151,10 @@ public class CounterSavesFragment extends Fragment
 
             if (counterTarget.getText().toString().length() == 0) {
                 counterTarget.setText("10");
+            }
+
+            if (counterProgress.getText().toString().length() == 0) {
+                counterProgress.setText("0");
             }
 
             if (isForEdit) {
@@ -176,6 +197,29 @@ public class CounterSavesFragment extends Fragment
         return sb.toString();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Проверяем по коду нужный результат
+        if(requestCode == 120) {
+            if(resultCode == Activity.RESULT_OK) {
+                //Действия при возврате результата
+                String updateTitle = data.getStringExtra("updateTitle");
+                int updateTarget = data.getIntExtra("updateTarget", 10);
+                int updateProgress = data.getIntExtra("updateProgress", progress);
+
+                CounterItem counterItem = new CounterItem(updateTitle, updateTarget,
+                        updateProgress);
+
+                title =  updateTitle;
+                target = updateTarget;
+                progress = updateProgress;
+
+                counterViewModel.update(counterItem);
+            }
+        }
+    }
+
 
     @Override
     public void itemClick(CounterItem counterItem) {
@@ -184,22 +228,24 @@ public class CounterSavesFragment extends Fragment
         bundle.putString("title", counterItem.title);
         bundle.putInt("target", counterItem.target);
         bundle.putInt("progress", counterItem.progress);
+        bundle.putInt("id", counterItem.id);
         cmf.setArguments(bundle);
         fragmentManager.beginTransaction()
                 .replace(R.id.containerFragment, cmf).commit();
+
+        Snackbar.make(binding.getRoot(), String.valueOf(counterItem.id),
+                Snackbar.LENGTH_LONG).show();
+
     }
 
     @Override
     public void deleteItem(CounterItem counterItem) {
         counterViewModel.delete(counterItem);
-        //notifyAll();
-        //counterViewModel.getAllCounterList();
     }
 
     @Override
     public void editItem(CounterItem counterItem) {
         this.counterForEdit = counterItem;
-        //counterItemDialog(true);
         onMaterialAlert(true);
     }
 }

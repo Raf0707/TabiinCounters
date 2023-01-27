@@ -22,14 +22,19 @@ public class CounterItem {
     @ColumnInfo(name = "completed")
     public boolean completed;
 
-/*
+
+    public CounterItem() {
+        title = getTitle();
+        target = getTarget();
+        progress = getProgress();
+    }
     public CounterItem(String title, int target, int progress) {
         this.title = title;
         this.target = target;
         this.progress = progress;
     }
 
- */
+
 
 
 

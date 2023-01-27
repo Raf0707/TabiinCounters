@@ -1,5 +1,7 @@
 package com.example.tabiincounters.ui;
 
+import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,60 +9,118 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.tabiincounters.R;
+import com.example.tabiincounters.databinding.FragmentTutorialBinding;
+import com.example.tabiincounters.ui.counters.CounterSavesFragment;
+import com.google.android.material.snackbar.Snackbar;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TutorialFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TutorialFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TutorialFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TutorialFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TutorialFragment newInstance(String param1, String param2) {
-        TutorialFragment fragment = new TutorialFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    FragmentTutorialBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tutorial, container, false);
+
+        binding = FragmentTutorialBinding.inflate(getLayoutInflater());
+
+        binding.backToCounterSaves.setOnClickListener(v -> {
+            changeFragment(requireActivity(),
+                    new CounterSavesFragment(),
+                    R.id.containerFragment,
+                    savedInstanceState
+            );
+        });
+
+        binding.openCounterListBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "Список счетчиков", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.changeCounterModeBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "смена режима счетчика", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.deleteCounterBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "удалить счетчик", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.editCounterBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "изменить счетчик", Snackbar.LENGTH_SHORT).setAction(
+                            "понятно", view -> Toast.makeText(getContext(),
+                                    "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.openCounterListBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "Список счетчиков",
+                            Snackbar.LENGTH_SHORT).setAction(
+                                    "понятно", view -> Toast.makeText(getContext(),
+                                    "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.saveCounterEditions.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "Сохранить изменения", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.openTutorialBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "обучение по кнопкам", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.openSettingsBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "Настройки счетчика", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.counterResetBtn.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "обновить счетчик", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.counterBtnPlus.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "прибавить значение к счетчику", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        binding.counterBtnMinus.setOnClickListener(v -> {
+            Snackbar.make(binding.getRoot(),
+                    "Вычесть значение из счетчика", Snackbar.LENGTH_SHORT)
+                    .setAction("понятно", view -> Toast.makeText(getContext(),
+                            "Я рад за вас", Toast.LENGTH_SHORT).show())
+                    .show();
+        });
+
+        return binding.getRoot();
     }
 }

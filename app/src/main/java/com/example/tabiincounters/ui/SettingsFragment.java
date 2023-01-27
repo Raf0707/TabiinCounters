@@ -24,4 +24,6 @@ public class SettingsFragment extends Fragment {
 
         return binding.getRoot();
     }
+
+
 }

@@ -4,14 +4,11 @@ import static com.example.tabiincounters.utils.UtilFragment.changeFragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +17,17 @@ import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.tabiincounters.R;
+import com.example.tabiincounters.adapters.counter.CounterAdapter;
+import com.example.tabiincounters.database.CounterDatabase;
 import com.example.tabiincounters.databinding.FragmentCounterMainBinding;
-import com.example.tabiincounters.domain.dao.CounterItemDao;
 import com.example.tabiincounters.domain.model.CounterItem;
 import com.example.tabiincounters.domain.repo.CounterRepository;
 import com.example.tabiincounters.ui.SettingsFragment;
+import com.example.tabiincounters.ui.TutorialFragment;
 import com.example.tabiincounters.ui.counters.CounterSavesFragment;
 import com.example.tabiincounters.ui.counters.counter_beta.CounterBetaFragment;
 import com.example.tabiincounters.ui.counters.counter_swipe.GestureCounterFragment;
@@ -46,11 +48,17 @@ public class CounterMainFragment extends Fragment {
     private SharedPreferences sPrefs;
     private Handler handler;
     private String selectMode = "Linear counter";
-    CounterBetaFragment cbf;
-    GestureCounterFragment gcf;
-    CounterViewModel counterViewModel;
-    CounterRepository counterRepository;
-    CounterItem counterItem;
+    private CounterBetaFragment cbf;
+    private GestureCounterFragment gcf;
+    private CounterViewModel counterViewModel;
+    private CounterRepository counterRepository;
+    private CounterItem counterItem;
+    private Bundle tranBundle;
+    private FragmentManager fragmentManager;
+    private CounterSavesFragment csf;
+    private CounterAdapter counterAdapter;
+    private CounterDatabase counterDatabase;
+    private CounterItem counterItemTransaction;
 
     private static final TimeInterpolator GAUGE_ANIMATION_INTERPOLATOR =
             new DecelerateInterpolator(2);
@@ -66,34 +74,34 @@ public class CounterMainFragment extends Fragment {
 
         counterViewModel = new CounterViewModel(requireActivity().getApplication());
         counterRepository = new CounterRepository(requireActivity().getApplication());
-        /*
-        counterItem = new CounterItem(
-                binding.counterTitle.getText().toString(),
-                Integer.parseInt(binding.counterTarget.getText().toString()),
-                binding.counterProgress.getProgress());
-
-         */
-
+        counterAdapter = new CounterAdapter(getContext(), null);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
             String title = bundle.getString("title");
             int target = bundle.getInt("target");
             int progress = bundle.getInt("progress");
+            int id = bundle.getInt("id");
 
             binding.counterTitle.setText(title);
             binding.counterTarget.setText(Integer.toString(target));
             binding.counterProgress.setMax(target);
             currentCount = progress;
             binding.counterProgress.setProgress(progress);
-        }
+            binding.counterProgressTv.setText(new StringBuilder()
+                    .append(progress)
+                    .append(" / ")
+                    .append(target));
 
-        counterItem = new CounterItem();
+
+        }
 
         cbf = new CounterBetaFragment();
         gcf = new GestureCounterFragment();
 
         handler = new Handler();
+
+
 
         binding.saveCounterEditions.setOnClickListener(view -> {
             // saveText()
@@ -163,7 +171,14 @@ public class CounterMainFragment extends Fragment {
                 }
             }
 
+            counterItem = new CounterItem(binding.counterTitle.getText().toString(),
+                    Integer.parseInt(binding.counterTarget.getText().toString()),
+                    binding.counterProgress.getProgress());
+
             counterViewModel.update(counterItem);
+            counterDatabase.counterItemDao().updateCounter(counterItem);
+
+            //transaction();
 
         });
 
@@ -218,9 +233,79 @@ public class CounterMainFragment extends Fragment {
                         InputMethodManager.SHOW_FORCED);
             }
 
+
+
         });
 
         binding.counterBtnPlus.setOnClickListener(view -> {
+
+            binding.counterTarget.setText(binding
+                    .counterTarget
+                    .getText()
+                    .toString()
+                    .replaceAll("[\\.\\-,\\s]+", ""));
+
+            binding.counterTarget.setCursorVisible(false);
+            binding.counterTarget.setFocusableInTouchMode(false);
+            binding.counterTarget.setEnabled(false);
+
+            binding.counterTitle.setCursorVisible(false);
+            binding.counterTitle.setFocusableInTouchMode(false);
+            binding.counterTitle.setEnabled(false);
+
+            binding.counterDescription.setCursorVisible(false);
+            binding.counterDescription.setFocusableInTouchMode(false);
+            binding.counterDescription.setEnabled(false);
+
+            if (binding.counterTarget.getText().toString().length() == 0) {
+                binding.counterTarget.setText(defaultValue);
+                maxValue = Integer.parseInt(binding
+                        .counterTarget
+                        .getText()
+                        .toString());
+
+                binding.counterProgress.setMax(maxValue);
+
+                Snackbar.make(requireView(),
+                                new StringBuilder()
+                                        .append("Вы не ввели цель. По умолчанию: ")
+                                        .append(defaultValue),
+                                Snackbar.LENGTH_LONG)
+                        .show();
+
+            } else {
+
+                if (Integer.parseInt(binding.counterTarget.getText().toString()) <= 0) {
+                    Snackbar.make(requireView(),
+                                    new StringBuilder()
+                                            .append("Введите число больше нуля!"),
+                                    Snackbar.LENGTH_LONG)
+                            .show();
+
+                } else {
+
+                    maxValue = Integer.parseInt(binding.counterTarget.getText().toString());
+                    binding.counterProgress.setMax(maxValue);
+                    binding
+                            .counterProgressTv
+                            .setText(MessageFormat
+                                    .format("{0} / {1}",
+                                            currentCount,
+                                            binding
+                                                    .counterTarget
+                                                    .getText()
+                                                    .toString()));
+
+                }
+            }
+
+            counterItem = new CounterItem(binding.counterTitle.getText().toString(),
+                    Integer.parseInt(binding.counterTarget.getText().toString()),
+                    binding.counterProgress.getProgress());
+
+            counterViewModel.update(counterItem);
+
+            transaction();
             //saveText();
             if (binding.counterTarget.getText().toString().length() == 0) {
                 maxValue = 100;
@@ -302,15 +387,14 @@ public class CounterMainFragment extends Fragment {
 
             counterViewModel.update(counterItem);
 
+
+
         });
 
         binding.deleteCounterBtn.setOnClickListener(v -> {
-
-            changeFragment(requireActivity(),
-                    new CounterSavesFragment(),
-                    R.id.containerFragment,
-                    savedInstanceState
-            );
+            removeCounterAlert();
+            counterViewModel.update(counterItem);
+            transaction();
         });
 
         binding.counterBtnMinus.setOnClickListener(view -> {
@@ -362,6 +446,34 @@ public class CounterMainFragment extends Fragment {
                     R.id.containerFragment,
                     savedInstanceState
             );
+            counterItem = new CounterItem(binding.counterTitle.getText().toString(),
+                    Integer.parseInt(binding.counterTarget.getText().toString()),
+                    binding.counterProgress.getProgress());
+
+            counterViewModel.update(counterItem);
+            counterDatabase.counterItemDao().updateCounter(counterItem);
+            /*
+            Intent intent = new Intent();
+            intent.putExtra("updateTitle", binding.counterTitle.getText().toString());
+            intent.putExtra("updateTarget", Integer
+                    .parseInt(binding.counterTarget.getText().toString()));
+            intent.putExtra("updateProgress", binding.counterProgress.getProgress());
+            getTargetFragment().onActivityResult(getTargetRequestCode(),
+                    Activity.RESULT_OK, intent);
+            getFragmentManager().popBackStack();
+
+             */
+
+
+        });
+
+        binding.openTutorialBtn.setOnClickListener(v -> {
+            changeFragment(requireActivity(),
+                    new TutorialFragment(),
+                    R.id.containerFragment,
+                    savedInstanceState
+            );
+            transaction();
         });
 
         binding.changeCounterModeBtn.setOnClickListener(v -> {
@@ -371,6 +483,7 @@ public class CounterMainFragment extends Fragment {
         binding.counterResetBtn.setOnClickListener(view -> {
             if (currentCount != 0) resetCounterAlert();
             counterViewModel.update(counterItem);
+            transaction();
         });
 
         binding.openSettingsBtn.setOnClickListener(view -> {
@@ -379,6 +492,7 @@ public class CounterMainFragment extends Fragment {
                     R.id.containerFragment,
                     savedInstanceState
             );
+            counterViewModel.update(counterItem);
         });
 
         Thread thread = new Thread(() -> {
@@ -411,7 +525,8 @@ public class CounterMainFragment extends Fragment {
                     currentCount = 0;
                     binding.counterProgressTv
                             .setText(new StringBuilder()
-                                    .append("0 / ")
+                                    .append(binding.counterProgress.getProgress())
+                                    .append(" / ")
                                     .append(binding.counterTarget
                                             .getText()
                                             .toString())
@@ -455,6 +570,7 @@ public class CounterMainFragment extends Fragment {
                         dialogInterface.cancel();
                     } else if (selectMode == "Circle counter") {
                         cbf.setArguments(bundle);
+
                         fragmentManager.beginTransaction()
                                 .replace(R.id.containerFragment, cbf).commit();
                     } else if (selectMode == "Swipe counter") {
@@ -469,6 +585,40 @@ public class CounterMainFragment extends Fragment {
                 .show();
     }
 
+    public void removeCounterAlert() {
+        new MaterialAlertDialogBuilder(requireContext(),
+                R.style.AlertDialogTheme)
+                .setTitle("Remove")
+                .setMessage("Вы уверены, что хотите удалить счетчик? " +
+                        "Чтобы удалить счетчик, вернитесь на главную страницу")
+                .setPositiveButton("Удалить", (dialogInterface, i) -> {
+                    changeFragment(requireActivity(),
+                            new CounterSavesFragment(),
+                            R.id.containerFragment,
+                            null
+                    );
+                })
+                .setNeutralButton("Отмена",
+                        (dialogInterface, i) ->
+                                dialogInterface.cancel())
+                .show();
+    }
 
+    public void transaction() {
+        tranBundle = new Bundle();
+        fragmentManager = getFragmentManager();
+        boolean edit = true;
+        csf = new CounterSavesFragment();
+        tranBundle.putString("title", binding.counterTitle.getText().toString());
+        tranBundle.putInt("target", Integer.parseInt(
+                binding.counterTarget.getText().toString()));
+        tranBundle.putInt("progress", binding.counterProgress.getProgress());
+        tranBundle.putInt("id", counterItem.id);
+        tranBundle.putBoolean("edit", edit);
+        csf.setArguments(tranBundle);
+        //counterRepository.updateData(counterItem);
+        //counterDatabase.counterItemDao().updateCounter(counterItemTransaction);
+
+    }
 
 }
